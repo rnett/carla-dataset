@@ -6,8 +6,8 @@ from pathlib import Path
 
 import h5py
 import s3fs
-from carla_dataset.intrinsics import CylindricalIntrinsics, SphericalIntrinsics, PinholeIntrinsics
-from carla_dataset.intrinsics._intrinsics import Intrinsics
+from carla_dataset.intrinsics import CylindricalIntrinsics, SphericalIntrinsics, PinholeIntrinsics, Intrinsics
+from ._side import Side
 
 
 class DataSource(ABC):
@@ -20,10 +20,15 @@ class DataSource(ABC):
         if not self.is_downloaded:
             raise ValueError(f"{self} is  not downloaded")
 
-        return self.data
+        if hasattr(self, "_open_data"):
+            return self._open_data
+
+        self._open_data = self.data
+        return self._open_data
 
     def __exit__(self, exc_type, exc_val: Data, exc_tb):
-        exc_val.close()
+        self._open_data.close()
+        del self._open_data
 
     @abstractmethod
     def download(self, force: bool = False) -> DataSource:
@@ -128,6 +133,9 @@ class SplitData:
     def back(self) -> Data:
         return Data(self._file, self._file["back"], self._intrinsics)
 
+    def __getitem__(self, item: Side):
+        return Data(self._file, self._file[item.name.lower()], self._intrinsics)
+
 
 class DataFile(ABC):
     def __init__(self, config):
@@ -205,10 +213,15 @@ class PoseDataFile(DataFile):
         if not self.is_downloaded:
             raise ValueError(f"{self} is  not downloaded")
 
-        return self.data
+        if hasattr(self, "_open_data"):
+            return self._open_data
+
+        self._open_data = self.data
+        return self._open_data
 
     def __exit__(self, exc_type, exc_val: Data, exc_tb):
-        exc_val.close()
+        self._open_data.close()
+        del self._open_data
 
 
 class CylindricalDataFile(DataFile, DataSource):
@@ -315,6 +328,9 @@ class PinholeDataFile(DataFile):
     def back(self) -> PinholeDataFileSide:
         return PinholeDataFileSide(self, "back")
 
+    def __getitem__(self, item: Side):
+        return PinholeDataFileSide(self, item.name.lower())
+
     def download(self, force: bool = False) -> PinholeDataFile:
         self._download(force)
         return self
@@ -326,9 +342,13 @@ class PinholeDataFileSide(DataSource):
     side: str
 
     @property
+    def intrinsics(self) -> PinholeIntrinsics:
+        return self.data_file.intrinsics
+
+    @property
     def data(self) -> Data:
         file = h5py.File(self.data_file.download_file_if_exists, 'r')
-        return Data(file, file[self.side])
+        return Data(file, file[self.side], self.data_file.intrinsics)
 
     def download(self, force: bool = False) -> PinholeDataFileSide:
         self.data_file.download(force)
