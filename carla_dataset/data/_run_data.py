@@ -191,6 +191,8 @@ class DataFile(ABC):
         if self.is_downloaded:
             self.download_file.unlink(missing_ok=True)
 
+        self.download_file.parent.mkdir(parents=True, exist_ok=True)
+
         fs = s3fs.S3FileSystem()
         fs.get(self.remote_location, str(self.download_file))
 
@@ -335,7 +337,9 @@ class PinholeDataFile(DataFile):
         self._download(force)
         return self
 
-
+for c in config.all():
+     c.cylindrical_data.download()
+     c.pinhole_data.download()
 @dataclass
 class PinholeDataFileSide(DataSource):
     data_file: PinholeDataFile
