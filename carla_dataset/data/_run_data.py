@@ -337,9 +337,7 @@ class PinholeDataFile(DataFile):
         self._download(force)
         return self
 
-for c in config.all():
-     c.cylindrical_data.download()
-     c.pinhole_data.download()
+
 @dataclass
 class PinholeDataFileSide(DataSource):
     data_file: PinholeDataFile
