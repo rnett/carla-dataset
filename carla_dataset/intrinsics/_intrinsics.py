@@ -126,3 +126,7 @@ class PinholeIntrinsics(Intrinsics):
     @property
     def width(self) -> int:
         return 768
+
+    @property
+    def fov(self) -> int:
+        return 100

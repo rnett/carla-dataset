@@ -1,3 +1,4 @@
+from enum import Enum
 
 class Side(Enum):
     Top = 0
