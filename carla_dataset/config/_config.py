@@ -70,7 +70,7 @@ class Config:
         return "s3://cscdatasets/jventu09/carla_dataset/" + self.folder_name + "/"
 
     @property
-    def cylendrical_data(self) -> CylindricalDataFile:
+    def cylindrical_data(self) -> CylindricalDataFile:
         return CylindricalDataFile(self)
 
     @property
