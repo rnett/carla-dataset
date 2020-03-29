@@ -39,7 +39,7 @@ class Intrinsics(ABC):
         return np.array([[self.f_x, 0, self.c_x, 0],
                          [0, self.f_y, self.c_y, 0],
                          [0, 0, 1, 0],
-                         [0, 0, 0, 1]])
+                         [0, 0, 0, 1]], dtype='float32')
 
     @property
     def normalized_K(self):
@@ -103,6 +103,37 @@ class SphericalIntrinsics(Intrinsics):
 
 
 class PinholeIntrinsics(Intrinsics):
+    @property
+    def f_x(self) -> np.float32:
+        return np.float32(322.2142583720755)
+
+    @property
+    def f_y(self) -> np.float32:
+        return np.float32(322.2142583720755)
+
+    @property
+    def c_x(self) -> np.float32:
+        return np.float32(384.0)
+
+    @property
+    def c_y(self) -> np.float32:
+        return np.float32(384.0)
+
+    @property
+    def height(self) -> int:
+        return 768
+
+    @property
+    def width(self) -> int:
+        return 768
+
+    @property
+    def fov(self) -> int:
+        return 100
+
+
+class Pinhole90Intrinsics(Intrinsics):
+    #TODO
     @property
     def f_x(self) -> np.float32:
         return np.float32(322.2142583720755)
