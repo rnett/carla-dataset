@@ -1,18 +1,18 @@
 from pathlib import Path
 from typing import Union
-
-_download_location = Path("~/.carla_dataset").expanduser()
+import os
 
 
 def get_download_location() -> Path:
-    global _download_location
-    return _download_location
+    if os.getenv("CARLA_DOWNLOAD_LOCATION") is None:
+        set_download_location("~/.carla_dataset")
+
+    return Path(os.getenv("CARLA_DOWNLOAD_LOCATION")).expanduser()
 
 
 def set_download_location(new_loc: Union[str, Path]):
-    global _download_location
     if not isinstance(new_loc, Path):
         new_loc = Path(new_loc)
 
     new_loc.mkdir(parents=True, exist_ok=True)
-    _download_location = new_loc
+    os.environ["CARLA_DOWNLOAD_LOCATION"] = str(new_loc)
