@@ -133,14 +133,13 @@ class PinholeIntrinsics(Intrinsics):
 
 
 class Pinhole90Intrinsics(Intrinsics):
-    #TODO
     @property
     def f_x(self) -> np.float32:
-        return np.float32(322.2142583720755)
+        return np.float32(384.0)
 
     @property
     def f_y(self) -> np.float32:
-        return np.float32(322.2142583720755)
+        return np.float32(384.0)
 
     @property
     def c_x(self) -> np.float32:
@@ -160,4 +159,4 @@ class Pinhole90Intrinsics(Intrinsics):
 
     @property
     def fov(self) -> int:
-        return 100
+        return 90
