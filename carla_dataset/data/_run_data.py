@@ -297,10 +297,11 @@ class PinholeDataFile(DataFile):
             raise ValueError(f"{self} is  not downloaded")
 
         file = h5py.File(self.download_file_if_exists, 'r')
+        self._open_file = file
         return SplitData(file, self.intrinsics)
 
     def __exit__(self, exc_type, exc_val: SplitData, exc_tb):
-        exc_val._file.close()
+        self._open_file.close()
 
     @property
     def intrinsics(self) -> PinholeIntrinsics:
