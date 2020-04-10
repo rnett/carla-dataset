@@ -55,20 +55,24 @@ def expand_wildcards(city=None, rain=None, sunset=None, num_cars=None, num_peds=
         if item[0] is None:  # city
             for c in list(City):
                 waiting.append((c, item[1], item[2], item[3], item[4], item[5]))
-        elif item[1] is None:
+        elif item[1] is None: # rain
             # for r in list(Rain):
             #     waiting.append((item[0], r, item[2], item[3], item[4], item[5]))
             waiting.append((item[0], Rain.Clear, item[2], item[3], item[4], item[5]))
-        elif item[2] is None:
+        elif item[2] is None: # sunset
             waiting.append((item[0], item[1], False, item[3], item[4], item[5]))
             waiting.append((item[0], item[1], True, item[3], item[4], item[5]))
-        elif item[3] is None:
+        elif item[3] is None: # cars
             waiting.append((item[0], item[1], item[2], cars_for_city(item[0]), item[4], item[5]))
-        elif item[4] is None:
+        elif item[4] is None: # peds
             waiting.append((item[0], item[1], item[2], item[3], 200, item[5]))
-        elif item[5] is None:
-            for i in range(2) if item[2] else range(5):
-                waiting.append((item[0], item[1], item[2], item[3], item[4], i))
+        elif item[5] is None: # indices
+            if item[0] is City.Town01:
+                for i in range(4) if item[2] else range(10):
+                    waiting.append((item[0], item[1], item[2], item[3], item[4], i))
+            else:
+                for i in range(2) if item[2] else range(5):
+                    waiting.append((item[0], item[1], item[2], item[3], item[4], i))
         else:
             done.append(item)
 
