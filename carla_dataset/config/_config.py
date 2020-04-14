@@ -5,6 +5,7 @@ from pathlib import Path
 
 from ..data import CylindricalDataFile, PinholeDataFile, SphericalDataFile
 from ..data import get_download_location
+from ..data._run_data import PoseDataFile
 
 
 class Rain(Enum):
@@ -80,6 +81,16 @@ class Config:
     @property
     def pinhole_data(self) -> PinholeDataFile:
         return PinholeDataFile(self)
+
+    @property
+    def pose_data(self) -> PoseDataFile:
+        return PoseDataFile(self)
+
+    def download_all(self, force: bool = False):
+        self.pose_data.download(force)
+        self.cylindrical_data.download(force)
+        self.spherical_data.download(force)
+        self.pinhole_data.download(force)
 
     @staticmethod
     def from_folder_name(name: str):
