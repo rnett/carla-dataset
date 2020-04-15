@@ -200,6 +200,10 @@ class DataFile(ABC):
 class PoseDataFile(DataFile):
 
     @property
+    def intrinsics(self) -> Intrinsics:
+        return None
+
+    @property
     def filename(self) -> str:
         return "pose.hdf5"
 
