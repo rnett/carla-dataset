@@ -188,8 +188,8 @@ class DataFile(ABC):
         if self.is_downloaded and not force:
             return
 
-        if self.is_downloaded:
-            self.download_file.unlink(missing_ok=True)
+        if self.is_downloaded and self.download_file.exists():
+            self.download_file.unlink()
 
         self.download_file.parent.mkdir(parents=True, exist_ok=True)
 
