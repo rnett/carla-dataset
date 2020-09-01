@@ -67,12 +67,8 @@ def expand_wildcards(city=None, rain=None, sunset=None, num_cars=None, num_peds=
         elif item[4] is None: # peds
             waiting.append((item[0], item[1], item[2], item[3], 200, item[5]))
         elif item[5] is None: # indices
-            if item[0] is City.Town01: #TODO get rid of this eventually
-                for i in range(4) if item[2] else range(10):
-                    waiting.append((item[0], item[1], item[2], item[3], item[4], i))
-            else:
-                for i in range(2) if item[2] else range(5):
-                    waiting.append((item[0], item[1], item[2], item[3], item[4], i))
+            for i in range(2) if item[2] else range(5):
+                waiting.append((item[0], item[1], item[2], item[3], item[4], i))
         else:
             done.append(item)
 
