@@ -5,7 +5,7 @@ import os
 
 def get_download_location() -> Path:
     if os.getenv("CARLA_DOWNLOAD_LOCATION") is None:
-        set_download_location("~/.carla_dataset")
+        set_download_location("~/.cpdd_dataset")
 
     return Path(os.getenv("CARLA_DOWNLOAD_LOCATION")).expanduser()
 

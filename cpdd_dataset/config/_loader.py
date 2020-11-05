@@ -4,7 +4,7 @@ from typing import List, Union
 
 import pandas
 
-from carla_dataset.config import City, Config, Rain
+from cpdd_dataset.config import City, Config, Rain
 
 
 def cars_for_city(city: City):
@@ -61,7 +61,7 @@ def expand_wildcards(city=None, rain=None, sunset=None, num_cars=None, num_peds=
             waiting.append((item[0], Rain.Clear, item[2], item[3], item[4], item[5]))
         elif item[2] is None: # sunset
             waiting.append((item[0], item[1], False, item[3], item[4], item[5]))
-            waiting.append((item[0], item[1], True, item[3], item[4], item[5]))
+            # waiting.append((item[0], item[1], True, item[3], item[4], item[5]))
         elif item[3] is None: # cars
             waiting.append((item[0], item[1], item[2], cars_for_city(item[0]), item[4], item[5]))
         elif item[4] is None: # peds

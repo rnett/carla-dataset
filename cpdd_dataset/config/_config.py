@@ -68,7 +68,7 @@ class Config:
 
     @property
     def remote_location(self) -> str:
-        return "s3://cscdatasets/jventu09/carla_dataset/" + self.folder_name + "/"
+        return "s3://cscdatasets/jventu09/cpdd_dataset/" + self.folder_name + "/"
 
     @property
     def cylindrical_data(self) -> CylindricalDataFile:

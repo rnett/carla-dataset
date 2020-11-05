@@ -6,7 +6,7 @@ from pathlib import Path
 
 import h5py
 import s3fs
-from carla_dataset.intrinsics import CylindricalIntrinsics, SphericalIntrinsics, PinholeIntrinsics, Intrinsics
+from cpdd_dataset.intrinsics import CylindricalIntrinsics, SphericalIntrinsics, PinholeIntrinsics, Intrinsics
 from ._side import Side
 
 
@@ -90,9 +90,8 @@ class Data:
     @property
     def depth(self) -> h5py.Dataset:
         """
-        #TODO check is this (*, 1)
         Depth is measured in dm (10th of a meter).
-        :return: A (frames, height, width) uint16 Dataset
+        :return: A (frames, height, width, 1) uint16 Dataset
         """
         return self._data["depth"]
 
